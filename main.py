@@ -98,5 +98,6 @@ while True:
 	quit = 0
 	winPlayer = newGame(quit)
 	new = input(('Game has ended! The winner is '+ winPlayer +'! One more? (Y/N):'))
+	players = []
 	if new == 'N':
 		break
