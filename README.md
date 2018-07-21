@@ -10,7 +10,6 @@ How to play:
 3) Type N to quit the game, type anything else to play another game
 
 Known bugs:
-1) 2nd and subsequent games are bugged due to shitty implementation of newGame() function
-2) Game crash when entering anything but numbers while making a turn
+1) Game crash when entering anything but numbers while making a turn
 
 Feel free to commit and request changes! One love!
