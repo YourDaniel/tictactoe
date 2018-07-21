@@ -10,8 +10,7 @@ How to play:
 3) When game is finished type N to quit the game, type anything else to play another game
 
 Known bugs:
-1) Try to win really hard because if you tie, the game will stuck in a loop
-2) Output window might not be cleared sometimes (depends on where you run the code)
+1) Output window might not be cleared sometimes (depends on where you run the code)
 
 Upcoming features:
 1) Carefully drawn ASCII numpad near game board for those losers out there who don't have a numpad
