@@ -86,7 +86,7 @@ def newGame(q):
 				q = 1     #workaround to end the game
 				break
 		if q == 1:
-			break					#end of workaround	
+			break		#end of workaround	
 	return(winner)
 
 #Main Program
@@ -105,6 +105,6 @@ while True:
 	quit = 0
 	winPlayer = newGame(quit)
 	new = input(('Game has ended! The winner is '+ winPlayer +'! One more? (Y/N):'))
-	players=[]
+	players = []
 	if new == 'N':
 		break
