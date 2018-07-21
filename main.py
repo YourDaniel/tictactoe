@@ -1,4 +1,8 @@
 #Functionality
+import os
+
+def clear():
+	os.system( 'cls' )
 
 def generateTable(size):
 	return [[tile for i in range(size)] for j in range(size)]
@@ -11,13 +15,15 @@ def drawTable():
   return()
 
 def makeTurn(player):
+
 	if player == 0:
 		mark = mark_0
 	else:
 		mark = mark_1
 	
-	c = int(input(players[player]+"'s turn (1-9): "))
-	if 0 < c < 10:
+	cStr = input(players[player]+"'s turn (1-9): ")
+	if cStr.isdigit() and 0 < int(cStr) < 10:
+		c = int(cStr)
 		if A[keyMap[c-1][0]][keyMap[c-1][1]] == tile:
 			A[keyMap[c-1][0]][keyMap[c-1][1]] = mark
 		else:
@@ -28,7 +34,7 @@ def makeTurn(player):
 		makeTurn(player)
 	return()
 
-def checkWinner(Z,player): #Z - gameTable
+def checkWinner(Z,player):
 
 	if player == 0:
 		mark = mark_0
@@ -69,6 +75,7 @@ def namePlayers():
 
 def newGame(q):
 	namePlayers()
+	clear()
 	drawTable()
 	while True:
 		for i in range(len(players)):
@@ -79,7 +86,7 @@ def newGame(q):
 				q = 1     #workaround to end the game
 				break
 		if q == 1:
-			break					#end of workaround	
+			break		#end of workaround	
 	return(winner)
 
 #Main Program
