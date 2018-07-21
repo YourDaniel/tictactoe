@@ -32,6 +32,7 @@ def makeTurn(player):
 	else:
 		print('Invalid input. Try again')
 		makeTurn(player)
+
 	return()
 
 def checkWinner(Z,player):
@@ -77,17 +78,24 @@ def newGame(q):
 	namePlayers()
 	clear()
 	drawTable()
+	turnCount = 0
 	while True:
 		for i in range(len(players)):
 			makeTurn(i)
+			turnCount += 1
 			drawTable()
 			if checkWinner(A,i) == 1:
 				winner = players[i]
 				q = 1     #workaround to end the game
 				break
+			elif turnCount == 9:
+				q = 1
+				print("It's a tie! One more? (Y/N): ",end="")
+				return()
 		if q == 1:
-			break		#end of workaround	
-	return(winner)
+			break					#end of workaround
+	print('Game has ended! The winner is '+ winner +'! One more? (Y/N): ',end='')
+	return()
 
 #Main Program
 
@@ -103,8 +111,9 @@ keyMap = [[2,0],[2,1],[2,2],[1,0],[1,1],[1,2],[0,0],[0,1],[0,2]]
 while True:
 	A = generateTable(tableSize)
 	quit = 0
+	turnCount = 0
 	winPlayer = newGame(quit)
-	new = input(('Game has ended! The winner is '+ winPlayer +'! One more? (Y/N):'))
+	new = input()
 	players = []
 	if new == 'N':
 		break
