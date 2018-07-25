@@ -1,5 +1,8 @@
 Tic-Tac-Toe
 
+News:
+PyCharm connected! Now committing straight from IDE! Hooray!
+
 The game of Tic-Tac-Toe playable in output window!
 Written in Python 3.
 2 players, hot-seat, 3x3 classic game.
