@@ -1,6 +1,18 @@
-# GITHUB COMMIT
 # Functionality
 import os
+
+'''
+class Player:
+    pass
+
+
+class GameBoard:
+    def __init__(self, ):
+        self.board = []
+
+    def draw(self):
+        pass
+'''
 
 
 def clear():
@@ -16,7 +28,7 @@ def draw_table():
         for j in range(tableSize):
             print(A[i][j], end=' ')
         print(end='\n')
-    return ()
+    return()
 
 
 def make_turn(player):
@@ -37,7 +49,7 @@ def make_turn(player):
         print('Invalid input. Try again')
         make_turn(player)
 
-    return ()
+    return()
 
 
 def check_winner(z, player):
@@ -83,23 +95,23 @@ def name_players():
 def new_game(q):
     name_players()
     draw_table()
-    turnCount = 0
+    turn_count = 0
     while True:
         for i in range(len(players)):
             make_turn(i)
-            turnCount += 1
+            turn_count += 1
             draw_table()
             if check_winner(A, i) == 1:
                 winner = players[i]
                 q = 1  # flag variable q to end the game
                 break
-            elif turnCount == 9:
+            elif turn_count == 9:
                 q = 1
-                print("It's a tie! One more? (Y/N): ", end="")
+                print("It's a tie! One more? (Y/N): ", end='')
                 return ()
         if q == 1:
             break
-    print('Game has ended! The winner is ' + winner + '! One more? (Y/N):', end = ' ')
+    print('Game has ended! The winner is ' + winner + '! One more? (Y/N): ', end='')
     return ()
 
 # Main Program
@@ -111,15 +123,14 @@ players = []
 tile = '■'
 mark_0 = 'X'
 mark_1 = 'O'
-keyMap = [[2, 0], [2, 1], [2, 2], [1, 0], [1, 1], [1, 2], [0, 0], [0, 1], [0, 2]]
+keyMap = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
 
 # New Game
 while True:
     A = generate_table(tableSize)
     quitGame = 0
-    turnCount = 0
     winPlayer = new_game(quitGame)
     new = input()
-    players = []
+    players=[]
     if new == 'N':
         break
