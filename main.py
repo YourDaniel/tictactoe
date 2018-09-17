@@ -1,5 +1,6 @@
 # Functionality
 import os
+from readchar import readchar
 
 '''
 class Player:
@@ -14,7 +15,6 @@ class GameBoard:
         pass
 '''
 
-
 def clear():
     os.system('cls')
 
@@ -24,11 +24,17 @@ def generate_table(size):
 
 
 def draw_table():
+    clear()
     for i in range(tableSize):
         for j in range(tableSize):
             print(A[i][j], end=' ')
         print(end='\n')
     return()
+
+
+def draw_game_log():
+    for line in game_log:
+        print(line)
 
 
 def make_turn(player):
@@ -37,7 +43,11 @@ def make_turn(player):
     else:
         mark = mark_1
 
-    c_str = input(players[player] + "'s turn (1-9): ")
+    message = f"{players[player]}'s turn (1-9): "
+
+    draw_game_log()
+    game_log.append(message)
+    c_str = readchar()
     if c_str.isdigit() and 0 < int(c_str) < 10:
         c = int(c_str)
         if A[keyMap[c - 1][0]][keyMap[c - 1][1]] == tile:
@@ -93,6 +103,8 @@ def name_players():
 
 
 def new_game(q):
+    clear()
+    print('>> T I C - T A C - T O E <<')
     name_players()
     draw_table()
     turn_count = 0
@@ -123,6 +135,7 @@ players = []
 tile = '■'
 mark_0 = 'X'
 mark_1 = 'O'
+game_log = []
 keyMap = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
 
 # New Game
@@ -131,6 +144,6 @@ while True:
     quitGame = 0
     winPlayer = new_game(quitGame)
     new = input()
-    players=[]
+    players = []
     if new == 'N':
         break

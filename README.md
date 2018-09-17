@@ -9,6 +9,7 @@ Written in Python 3.6.
 
 In order to play a game, Python interpreter must be installed
 Run main.py from command line in Windows using:
+
 >> python main.py
 
 How to play:
