@@ -7,7 +7,7 @@ The game of Tic-Tac-Toe playable in Windows console!
 Written in Python 3.6.
 2 players, hot-seat, 3x3 classic game.
 
-In order to play a game, Python interpreter must be installed
+In order to play a game, Python interpreter must be installed.
 Run main.py from command line in Windows using:
 
 >> python main.py
