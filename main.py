@@ -32,21 +32,13 @@ def draw_table():
     return()
 
 
-def draw_game_log():
-    for line in game_log:
-        print(line)
-
-
 def make_turn(player):
     if player == 0:
         mark = mark_0
     else:
         mark = mark_1
 
-    message = f"{players[player]}'s turn (1-9): "
-
-    draw_game_log()
-    game_log.append(message)
+    print(f"{players[player]}'s turn (1-9): ")
     c_str = readchar()
     if c_str.isdigit() and 0 < int(c_str) < 10:
         c = int(c_str)
