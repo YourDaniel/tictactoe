@@ -1,27 +1,19 @@
-# Functionality
 import os
 from readchar import readchar
 
 # NEW RELEASE BRANCH
-'''
-class Player:
-    pass
+# Makes ANSI sequences work
+import ctypes
+kernel32 = ctypes.windll.kernel32
+kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
 
-
-class GameBoard:
-    def __init__(self, ):
-        self.board = []
-
-    def draw(self):
-        pass
-'''
 
 def clear():
-    os.system('cls')
+    print('\x1b[2J', end='')
 
 
 def generate_table(size):
-    return [[tile for i in range(size)] for j in range(size)]
+    return [[tile] * size for i in range(size)]
 
 
 def draw_table():
@@ -95,9 +87,21 @@ def name_players():
     players.append(input('Player II, enter your name: '))
 
 
-def new_game(q):
+
+# Initialization (don't change any values except marks here)
+tableSize = 3
+players = []
+tile = '■'
+mark_0 = 'X'
+mark_1 = 'O'
+keyMap = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
+
+A = generate_table(tableSize)
+def main():
+    quit_game = False
     clear()
     print('>> T I C - T A C - T O E <<')
+
     name_players()
     draw_table()
     turn_count = 0
@@ -108,35 +112,17 @@ def new_game(q):
             draw_table()
             if check_winner(A, i) == 1:
                 winner = players[i]
-                q = 1  # flag variable q to end the game
+                quit_game = True
                 break
             elif turn_count == 9:
-                q = 1
+                quit_game = True
                 print("It's a tie! One more? (Y/N): ", end='')
                 return ()
-        if q == 1:
+        if quit_game:
             break
     print('Game has ended! The winner is ' + winner + '! One more? (Y/N): ', end='')
-    return ()
-
-# Main Program
-# Initialization (don't change any values except marks here)
-
-
-tableSize = 3
-players = []
-tile = '■'
-mark_0 = 'X'
-mark_1 = 'O'
-game_log = []
-keyMap = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
-
-# New Game
-while True:
-    A = generate_table(tableSize)
-    quitGame = 0
-    winPlayer = new_game(quitGame)
     new = input()
-    players = []
-    if new == 'N':
-        break
+
+
+if __name__ == '__main__':
+    main()
