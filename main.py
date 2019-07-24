@@ -45,10 +45,10 @@ class Player:
                 return key_map[c - 1][0], key_map[c - 1][1]
             else:
                 print('This cell is marked. Try again')
-                self.make_move()
+                self.make_move(board)
         else:
             print('Invalid input. Try again')
-            self.make_move()
+            self.make_move(board)
 
 
 def check_winner(mark):
@@ -110,8 +110,8 @@ def main():
         ai_level = readchar()
         if int(ai_level) == 0:
             players.append(ai.LevelZero(False, f'AI level {int(ai_level)}'))
-        elif ai_level == '1':
-            players.append(ai.LevelOne(False, f'AI level {ai_level}'))
+        elif int(ai_level) == 1:
+            players.append(ai.LevelOne(False, f'AI level {int(ai_level)}'))
         elif ai_level == '2':
             players.append(ai.LevelTwo(False, f'AI level {ai_level}'))
         elif ai_level == '3':
@@ -122,9 +122,8 @@ def main():
         players.append(Player(name_2, MARK_2))
 
     draw_table()
-    # turn_count = 0
-    player_n = randint(0, 1)
 
+    player_n = randint(0, 1)
     while True:
         x, y = players[player_n].make_move(GAME_BOARD)
         place_mark(x, y, players[player_n].mark)
@@ -143,24 +142,6 @@ def main():
         else:
             player_n = 0
     print('Game End')
-
-    # while True:
-    #     for i in range(len(players)):
-    #         make_turn(i)
-    #         turn_count += 1
-    #         draw_table()
-    #         if check_winner(GAME_BOARD, i) == 1:
-    #             winner = players[i]['name']
-    #             quit_game = True
-    #             break
-    #         elif turn_count == 9:
-    #             quit_game = True
-    #             print("It's a tie! One more? (Y/N): ", end='')
-    #             return ()
-    #     if quit_game:
-    #         break
-    # print(f'Game has ended! The winner is {winner}! One more? (Y/N): ', end='')
-    # new = input()
 
 
 if __name__ == '__main__':
