@@ -52,33 +52,28 @@ class Player:
 
 
 def check_winner(mark):
-
     # Rows check
     for i in range(table_size):
         L = GAME_BOARD[i]
         if L.count(mark) == 3:
             return True
-
     # Columns check
     for x in range(table_size):
         L = [i[x] for i in GAME_BOARD]
         if L.count(mark) == 3:
             return True
-
     # \ diagonal check
     L = []
     for i in range(table_size):
         L.append(GAME_BOARD[i][i])
     if L.count(mark) == 3:
         return True
-
     # / diagonal check
     L = []
     for i in range(table_size):
         L.append(GAME_BOARD[2 - i][i])
     if L.count(mark) == 3:
         return True
-
     return False
 
 
@@ -90,6 +85,7 @@ def check_for_tie():
     else:
         return True
 
+
 table_size = 3
 players = []
 key_map = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
@@ -98,7 +94,6 @@ GAME_BOARD = generate_table(table_size)
 
 def main():
     clear()
-    # quit_game = False  #TODO: get rid of this variable
     print('>> T I C - T A C - T O E <<')
     name_1 = input('Player I, enter your name: ')
     players.append(Player(name_1, MARK_1))
@@ -109,13 +104,13 @@ def main():
         print('Choose AI level (0-3): ')
         ai_level = readchar()
         if int(ai_level) == 0:
-            players.append(ai.LevelZero(False, f'AI level {int(ai_level)}'))
+            players.append(ai.LevelZero(f'AI level {int(ai_level)}'))
         elif int(ai_level) == 1:
-            players.append(ai.LevelOne(False, f'AI level {int(ai_level)}'))
+            players.append(ai.LevelOne(f'AI level {int(ai_level)}'))
         elif ai_level == '2':
-            players.append(ai.LevelTwo(False, f'AI level {ai_level}'))
+            players.append(ai.LevelTwo(f'AI level {ai_level}'))
         elif ai_level == '3':
-            players.append(ai.LevelThree(False, f'AI level {ai_level}'))
+            players.append(ai.LevelThree(f'AI level {ai_level}'))
 
     elif int(game_mode) == 2:
         name_2 = input('Player II, enter your name: ')

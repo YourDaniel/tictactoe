@@ -4,13 +4,8 @@ from time import sleep
 
 
 class TicTacAi:
-    def __init__(self, go_first, name):
-        self.go_first = go_first
-        assert go_first in [True, False]
-        if go_first:
-            self.mark = MARK_1
-        else:
-            self.mark = MARK_2
+    def __init__(self, name):
+        self.mark = MARK_2
         self.valid_moves = []
         self.winning_moves = []
         self.name = name
@@ -74,4 +69,5 @@ class LevelTwo(TicTacAi):
     pass
 
 class LevelThree(TicTacAi):
+
     pass
