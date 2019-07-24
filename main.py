@@ -1,5 +1,7 @@
-import os
 from readchar import readchar
+from random import randint
+import ai
+from tiles import *
 
 # NEW RELEASE BRANCH
 # Makes ANSI sequences work
@@ -13,115 +15,152 @@ def clear():
 
 
 def generate_table(size):
-    return [[tile] * size for i in range(size)]
+    return [[EMPTY_TILE] * size for i in range(size)]
 
 
 def draw_table():
     clear()
-    for i in range(tableSize):
-        for j in range(tableSize):
-            print(A[i][j], end=' ')
+    for i in range(table_size):
+        for j in range(table_size):
+            print(GAME_BOARD[i][j], end=' ')
         print(end='\n')
     return()
 
 
-def make_turn(player):
-    if player == 0:
-        mark = mark_0
-    else:
-        mark = mark_1
+def place_mark(x, y, mark):
+    GAME_BOARD[x][y] = mark
 
-    print(f"{players[player]}'s turn (1-9): ")
-    c_str = readchar()
-    if c_str.isdigit() and 0 < int(c_str) < 10:
-        c = int(c_str)
-        if A[keyMap[c - 1][0]][keyMap[c - 1][1]] == tile:
-            A[keyMap[c - 1][0]][keyMap[c - 1][1]] = mark
+
+class Player:
+    def __init__(self, name, mark):
+        self.name = name
+        self.mark = mark
+
+    def make_move(self, board):
+        print(f"{self.name}'s turn (1-9): ")
+        c_str = readchar()
+        if c_str.isdigit() and 0 < int(c_str) < 10:
+            c = int(c_str)
+            if board[key_map[c - 1][0]][key_map[c - 1][1]] == EMPTY_TILE:
+                return key_map[c - 1][0], key_map[c - 1][1]
+            else:
+                print('This cell is marked. Try again')
+                self.make_move()
         else:
-            print('This cell is marked. Try again')
-            make_turn(player)
-    else:
-        print('Invalid input. Try again')
-        make_turn(player)
-
-    return()
+            print('Invalid input. Try again')
+            self.make_move()
 
 
-def check_winner(z, player):
-    if player == 0:
-        mark = mark_0
-    else:
-        mark = mark_1
+def check_winner(mark):
 
     # Rows check
-    for i in range(tableSize):
-        L = z[i]
+    for i in range(table_size):
+        L = GAME_BOARD[i]
         if L.count(mark) == 3:
-            return 1
+            return True
 
     # Columns check
-    for x in range(tableSize):
-        L = [i[x] for i in z]
+    for x in range(table_size):
+        L = [i[x] for i in GAME_BOARD]
         if L.count(mark) == 3:
-            return 1
+            return True
 
     # \ diagonal check
     L = []
-    for i in range(tableSize):
-        L.append(z[i][i])
+    for i in range(table_size):
+        L.append(GAME_BOARD[i][i])
     if L.count(mark) == 3:
-        return 1
+        return True
 
     # / diagonal check
     L = []
-    for i in range(tableSize):
-        L.append(z[2 - i][i])
+    for i in range(table_size):
+        L.append(GAME_BOARD[2 - i][i])
     if L.count(mark) == 3:
-        return 1
+        return True
 
-    return 0
-
-
-def name_players():
-    players.append(input('Player I, enter your name: '))
-    players.append(input('Player II, enter your name: '))
+    return False
 
 
+def check_for_tie():
+    for i in range(table_size):
+        for j in range(table_size):
+            if GAME_BOARD[i][j] == EMPTY_TILE:
+                return False
+    else:
+        return True
 
-# Initialization (don't change any values except marks here)
-tableSize = 3
+table_size = 3
 players = []
-tile = '■'
-mark_0 = 'X'
-mark_1 = 'O'
-keyMap = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
+key_map = ((2, 0), (2, 1), (2, 2), (1, 0), (1, 1), (1, 2), (0, 0), (0, 1), (0, 2))
+GAME_BOARD = generate_table(table_size)
 
-A = generate_table(tableSize)
+
 def main():
-    quit_game = False
     clear()
+    # quit_game = False  #TODO: get rid of this variable
     print('>> T I C - T A C - T O E <<')
+    name_1 = input('Player I, enter your name: ')
+    players.append(Player(name_1, MARK_1))
+    print('Press 1 to play vs AI, 2 to play vs Human: ')
+    game_mode = readchar()
+    # TODO: Add exception handler for ValueError
+    if int(game_mode) == 1:
+        print('Choose AI level (0-3): ')
+        ai_level = readchar()
+        if int(ai_level) == 0:
+            players.append(ai.LevelZero(False, f'AI level {int(ai_level)}'))
+        elif ai_level == '1':
+            players.append(ai.LevelOne(False, f'AI level {ai_level}'))
+        elif ai_level == '2':
+            players.append(ai.LevelTwo(False, f'AI level {ai_level}'))
+        elif ai_level == '3':
+            players.append(ai.LevelThree(False, f'AI level {ai_level}'))
 
-    name_players()
+    elif int(game_mode) == 2:
+        name_2 = input('Player II, enter your name: ')
+        players.append(Player(name_2, MARK_2))
+
     draw_table()
-    turn_count = 0
+    # turn_count = 0
+    player_n = randint(0, 1)
+
     while True:
-        for i in range(len(players)):
-            make_turn(i)
-            turn_count += 1
-            draw_table()
-            if check_winner(A, i) == 1:
-                winner = players[i]
-                quit_game = True
-                break
-            elif turn_count == 9:
-                quit_game = True
-                print("It's a tie! One more? (Y/N): ", end='')
-                return ()
-        if quit_game:
+        x, y = players[player_n].make_move(GAME_BOARD)
+        place_mark(x, y, players[player_n].mark)
+        draw_table()
+        if check_winner(players[player_n].mark):
+            winner = players[player_n].name
+            print(f'The winner is {winner}! One more? (Y/N): ', end='')
             break
-    print('Game has ended! The winner is ' + winner + '! One more? (Y/N): ', end='')
-    new = input()
+        else:
+            if check_for_tie():
+                print("It's a tie! One more? (Y/N): ", end='')
+                break
+
+        if player_n == 0:
+            player_n = 1
+        else:
+            player_n = 0
+    print('Game End')
+
+    # while True:
+    #     for i in range(len(players)):
+    #         make_turn(i)
+    #         turn_count += 1
+    #         draw_table()
+    #         if check_winner(GAME_BOARD, i) == 1:
+    #             winner = players[i]['name']
+    #             quit_game = True
+    #             break
+    #         elif turn_count == 9:
+    #             quit_game = True
+    #             print("It's a tie! One more? (Y/N): ", end='')
+    #             return ()
+    #     if quit_game:
+    #         break
+    # print(f'Game has ended! The winner is {winner}! One more? (Y/N): ', end='')
+    # new = input()
 
 
 if __name__ == '__main__':
