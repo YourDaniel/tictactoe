@@ -37,18 +37,17 @@ class Player:
         self.mark = mark
 
     def make_move(self, board):
-        print(f"{self.name}'s turn (1-9): ")
-        c_str = readchar()
-        if c_str.isdigit() and 0 < int(c_str) < 10:
-            c = int(c_str)
-            if board[key_map[c - 1][0]][key_map[c - 1][1]] == EMPTY_TILE:
-                return key_map[c - 1][0], key_map[c - 1][1]
+        while True:
+            print(f"{self.name}'s turn (1-9): ")
+            c_str = readchar()
+            if c_str.isdigit() and 0 < int(c_str) < 10:
+                c = int(c_str)
+                if board[key_map[c - 1][0]][key_map[c - 1][1]] == EMPTY_TILE:
+                    return key_map[c - 1][0], key_map[c - 1][1]
+                else:
+                    print('This cell is marked. Try again')
             else:
-                print('This cell is marked. Try again')
-                self.make_move(board)
-        else:
-            print('Invalid input. Try again')
-            self.make_move(board)
+                print('Invalid input. Try again')
 
 
 def check_winner(mark):
@@ -94,7 +93,7 @@ GAME_BOARD = generate_table(table_size)
 
 def main():
     clear()
-    print('>> T I C - T A C - T O E <<')
+    print('>> TIC - TAC - TOE <<')
     name_1 = input('Player I, enter your name: ')
     players.append(Player(name_1, MARK_1))
     print('Press 1 to play vs AI, 2 to play vs Human: ')
@@ -117,7 +116,6 @@ def main():
         players.append(Player(name_2, MARK_2))
 
     draw_table()
-
     player_n = randint(0, 1)
     while True:
         x, y = players[player_n].make_move(GAME_BOARD)
@@ -125,12 +123,18 @@ def main():
         draw_table()
         if check_winner(players[player_n].mark):
             winner = players[player_n].name
-            print(f'The winner is {winner}! One more? (Y/N): ', end='')
-            break
+            start_over = input(f'The winner is {winner}! One more?: ')
+            if start_over.lower() in ['y', 'ye', 'yes']:
+                print('Starting over...')
+            elif start_over.lower() in ['n', 'no', 'nope']:
+                break
         else:
             if check_for_tie():
-                print("It's a tie! One more? (Y/N): ", end='')
-                break
+                start_over = input("It's a tie! One more?: ")
+                if start_over.lower() in ['y', 'ye', 'yes']:
+                    print('Starting over...')
+                elif start_over.lower() in ['n', 'no', 'nope']:
+                    break
 
         if player_n == 0:
             player_n = 1

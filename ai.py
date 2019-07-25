@@ -42,6 +42,7 @@ class TicTacAi:
 
 class LevelZero(TicTacAi):
     def make_move(self, game_board):
+        print('AI is thinking...')
         sleep(1)
         self.check_for_valid_moves(game_board)
         x, y = choice(self.valid_moves)
@@ -50,6 +51,7 @@ class LevelZero(TicTacAi):
 
 class LevelOne(TicTacAi):
     def make_move(self, game_board):
+        print('AI is thinking...')
         sleep(1)
         self.check_win(game_board, self.mark)
         if len(self.winning_moves) > 0:
